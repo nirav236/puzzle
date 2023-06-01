@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -67,6 +69,32 @@ class _MyHomePageState extends State<MyHomePage> {
       setState(() {
         numbers[index + 3] = numbers[index];
         numbers[index] = 9;
+      });
+    }
+
+    // System's move
+    int emptyTileIndex = numbers.indexOf(9);
+    List<int> validMoves = [];
+
+    if (emptyTileIndex != 8 && numbers[emptyTileIndex + 1] != 9) {
+      validMoves.add(emptyTileIndex + 1);
+    }
+    if (emptyTileIndex != 0 && numbers[emptyTileIndex - 1] != 9) {
+      validMoves.add(emptyTileIndex - 1);
+    }
+    if (emptyTileIndex >= 3 && numbers[emptyTileIndex - 3] != 9) {
+      validMoves.add(emptyTileIndex - 3);
+    }
+    if (emptyTileIndex < 6 && numbers[emptyTileIndex + 3] != 9) {
+      validMoves.add(emptyTileIndex + 3);
+    }
+
+    if (validMoves.isNotEmpty) {
+      int randomIndex = Random().nextInt(validMoves.length);
+      int systemMoveIndex = validMoves[randomIndex];
+      setState(() {
+        numbers[emptyTileIndex] = numbers[systemMoveIndex];
+        numbers[systemMoveIndex] = 9;
       });
     }
 
